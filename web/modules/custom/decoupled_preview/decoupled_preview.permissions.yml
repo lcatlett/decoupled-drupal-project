@@ -1,0 +1,3 @@
+administer dp_preview_site:
+  title: 'Administer preview site'
+  restrict access: true

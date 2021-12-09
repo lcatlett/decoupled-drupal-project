@@ -1,0 +1,24 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: 86f89130-29e8-4df3-917b-fedc7f2100e9
+  default_langcode: en
+default:
+  filename:
+    -
+      value: pizza.jpg
+  uri:
+    -
+      value: 'public://pizza.jpg'
+  filemime:
+    -
+      value: image/jpg
+  filesize:
+    -
+      value: 314587
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1635943934

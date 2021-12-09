@@ -1,0 +1,93 @@
+<?php
+
+/**
+ * @file
+ * Decoupled Preview module file.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Cache\Cache;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function decoupled_preview_form_node_form_alter(&$form, &$form_state) {
+  // @todo Check for administer dp_preview_site permission before altering.
+  $node = $form_state->getFormObject()->getEntity();
+  $nodeType = $node->bundle();
+  $ids = \Drupal::entityQuery('dp_preview_site')->execute();
+  $previewSiteStorage = \Drupal::entityTypeManager()->getStorage('dp_preview_site');
+  $sites = $previewSiteStorage->loadMultiple($ids);
+  $enablePreview = FALSE;
+  foreach ($sites as $site) {
+    if ($site->checkEnabledContentType($nodeType)) {
+      $enablePreview = TRUE;
+    }
+  }
+
+  if ($enablePreview) {
+    $preview_mode = $node->type->entity->getPreviewMode();
+
+    $form['actions']['preview'] = [
+      '#type' => 'submit',
+      '#access' => $preview_mode != DRUPAL_DISABLED && ($node->access('create') || $node->access('update')),
+      '#value' => t('Decoupled Preview'),
+      '#weight' => 20,
+      '#submit' => [
+        '::submitForm',
+        '_decoupled_preview_submit_decoupled_preview',
+      ],
+    ];
+  }
+}
+
+/**
+ * Stores form state in private tempstore & redirects to decoupled preview form.
+ *
+ * @param array $form
+ *   Nested array of form elements that comprise the form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current state of the form.
+ */
+function _decoupled_preview_submit_decoupled_preview(array &$form, FormStateInterface $form_state) {
+  $entity = $form_state->getFormObject()->getEntity();
+  $entity->in_preview = TRUE;
+  $uuid = $entity->uuid();
+  $key = \Drupal::currentUser()->id() . '_' . $uuid;
+
+  // Service used to store uuid and respective form object in memory.
+  $temp_store_private = \Drupal::service('tempstore.private');
+  $store_private = $temp_store_private->get('node_preview');
+  // Setting storage for preview.
+  $store_private->set($uuid, $form_state);
+
+  // Also add a copy in the shared tempstore, for easy access via API.
+  $temp_store_shared = \Drupal::service('tempstore.shared');
+  $store_shared = $temp_store_shared->get('decoupled_preview');
+  // Setting storage for preview.
+  $store_shared->set($key, $form_state);
+
+  // This invalidates the entry in the page cache, which we can target by tag.
+  Cache::invalidateTags(["decoupled_preview:{$key}"]);
+
+  // Pass parameters used for preview.
+  $route_parameters = [
+    // Should node preview be in the path instead
+    // rather than in the query string?
+    'node_preview' => $uuid,
+    'node' => $entity->id(),
+  ];
+
+  $form_state->setRedirect('decoupled_preview.preview', $route_parameters);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function decoupled_preview_preprocess_breadcrumb(&$variables) {
+  /** @var \Drupal\Core\Link $link */
+  $link = $variables['links'][2] ?? NULL;
+  if ($link && isset($variables['breadcrumb'][2]) && $variables['links'][2]->getUrl()->getRouteName() === 'decoupled_preview.preview') {
+    unset($variables['breadcrumb'][2]);
+  }
+}

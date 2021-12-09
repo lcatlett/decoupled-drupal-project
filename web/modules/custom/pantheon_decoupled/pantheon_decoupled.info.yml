@@ -1,0 +1,9 @@
+name: Pantheon Decoupled
+type: module
+description: Customization for Pantheon's Decoupled Sites.
+package: Custom
+core: 8.x
+core_version_requirement: ^8 || ^9
+dependencies:
+  - simple_oauth:simple_oauth
+  - decoupled_preview

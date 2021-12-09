@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Pantheon Decoupled module file.
+ */
+
+use Drupal\Core\StreamWrapper\PrivateStream;
+
+/**
+ * Automatically generate keys for use with Simple OAuth.
+ *
+ * @return array
+ *   public and private key paths.
+ */
+function _pantheon_decoupled_generate_keys() {
+  // Build all the dependencies manually to avoid having to rely on the
+  // container to be ready.
+  $dir_name = 'keys';
+  /** @var \Drupal\simple_oauth\Service\KeyGeneratorService $key_gen */
+  $key_gen = \Drupal::service('simple_oauth.key.generator');
+  /** @var \Drupal\simple_oauth\Service\Filesystem\FileSystemChecker $file_system_checker */
+  $file_system_checker = \Drupal::service('simple_oauth.filesystem_checker');
+  /** @var \Drupal\Core\File\FileSystem $file_system */
+  $file_system = \Drupal::service('file_system');
+  /** @var \Drupal\Core\Logger\LoggerChannelInterface $logger */
+  $logger = \Drupal::logger('pantheon_decpouled');
+
+  $private_path = PrivateStream::basePath();
+  $pub_filename = sprintf('%s/public.key', $private_path);
+  $pri_filename = sprintf('%s/private.key', $private_path);
+
+  if ($file_system_checker->fileExist($pub_filename) && $file_system_checker->fileExist($pri_filename)) {
+    // 1. If the file already exists, then just set the correct permissions.
+    $file_system->chmod($pub_filename, 0600);
+    $file_system->chmod($pri_filename, 0600);
+    $logger->info('Key pair for OAuth 2 token signing already exists.');
+  }
+
+  else {
+    // 2. Generate the pair in the selected directory.
+    try {
+      $key_gen->generateKeys($private_path);
+    }
+    catch (\Exception $e) {
+      // Unable to generate files after all.
+      $logger->error($e->getMessage());
+      return $e;
+    }
+  }
+
+  // Return public and private paths so they can be set in config.
+  return [
+    'public' => $pub_filename,
+    'private' => $pri_filename,
+  ];
+}

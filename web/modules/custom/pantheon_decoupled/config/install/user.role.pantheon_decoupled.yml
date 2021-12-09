@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+id: pantheon_decoupled
+label: 'Pantheon Decoupled'
+weight: 5
+is_admin: null
+permissions:
+  - 'administer taxonomy'
+  - 'administer dp_preview_site'

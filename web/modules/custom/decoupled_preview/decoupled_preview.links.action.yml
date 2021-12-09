@@ -1,0 +1,5 @@
+entity.dp_preview_site.add_form:
+  route_name: 'entity.dp_preview_site.add_form'
+  title: 'Add preview site'
+  appears_on:
+    - entity.dp_preview_site.collection

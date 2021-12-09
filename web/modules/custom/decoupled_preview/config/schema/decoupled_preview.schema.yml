@@ -1,0 +1,19 @@
+decoupled_preview.dp_preview_site.*:
+  type: config_entity
+  label: Preview Site
+  mapping:
+    id:
+      type: string
+      label: ID
+    label:
+      type: label
+      label: Label
+    uuid:
+      type: string
+    url:
+      type: string
+    secret:
+      type: string
+      exportable: false
+    content_type:
+      type: mapping

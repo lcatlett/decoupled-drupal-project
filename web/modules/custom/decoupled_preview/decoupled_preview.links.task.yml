@@ -1,0 +1,5 @@
+decoupled_preview.preview:
+  route_name: decoupled_preview.preview
+  title: 'Decoupled Preview'
+  base_route: entity.node.canonical
+  weight: 100

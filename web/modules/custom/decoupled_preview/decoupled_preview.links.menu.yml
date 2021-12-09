@@ -1,0 +1,5 @@
+entity.dp_preview_site.overview:
+  title: Preview Sites
+  parent: system.admin_structure
+  description: 'List of preview sites to extend site functionality.'
+  route_name: entity.dp_preview_site.collection

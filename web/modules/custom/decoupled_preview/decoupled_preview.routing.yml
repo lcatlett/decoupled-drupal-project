@@ -1,0 +1,53 @@
+entity.dp_preview_site.collection:
+  path: '/admin/structure/dp-preview-site'
+  defaults:
+    _entity_list: 'dp_preview_site'
+    _title: 'Preview Site configuration'
+  requirements:
+    _permission: 'administer dp_preview_site'
+
+entity.dp_preview_site.add_form:
+  path: '/admin/structure/dp_preview_site/add'
+  defaults:
+    _entity_form: 'dp_preview_site.add'
+    _title: 'Add a preview site'
+  requirements:
+    _permission: 'administer dp_preview_site'
+
+entity.dp_preview_site.edit_form:
+  path: '/admin/structure/dp-preview-site/{dp_preview_site}'
+  defaults:
+    _entity_form: 'dp_preview_site.edit'
+    _title: 'Edit a preview site'
+  requirements:
+    _permission: 'administer dp_preview_site'
+
+entity.dp_preview_site.delete_form:
+  path: '/admin/structure/dp-preview-site/{dp_preview_site}/delete'
+  defaults:
+    _entity_form: 'dp_preview_site.delete'
+    _title: 'Delete a preview site'
+  requirements:
+    _permission: 'administer dp_preview_site'
+
+decoupled_preview.preview:
+  path: '/node/{node}/preview/{node_preview}'
+  defaults:
+    _title: 'Preview'
+    _controller: '\Drupal\decoupled_preview\Controller\DecoupledPreviewController::build'
+    node_preview: false
+  requirements:
+    # Should we also be checking for access to the node in the temp store?
+    _permission: 'administer dp_preview_site'
+    _custom_access: '\Drupal\decoupled_preview\Controller\DecoupledPreviewController::isPreviewEnabled'
+  node: \d+
+
+# Custom JSON:API endpoint that provides data to FE preview
+decoupled_preview.preview_resource:
+  path: '/%jsonapi%/decoupled-preview/{key}'
+  defaults:
+    _jsonapi_resource: Drupal\decoupled_preview\Resource\PreviewResource
+  requirements:
+    # The same route requirements for any route definition may also be used
+    # by a JSON:API resource route.
+    _permission: 'administer dp_preview_site'

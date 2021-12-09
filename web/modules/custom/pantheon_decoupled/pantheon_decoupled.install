@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for pantheon_decoupled.
+ */
+
+use Drupal\consumers\Entity\Consumer;
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_install().
+ */
+function pantheon_decoupled_install() {
+  // Create keys for Simple OAuth.
+  $keys = _pantheon_decoupled_generate_keys();
+  // And set their paths in config.
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('simple_oauth.settings');
+  $config->set('public_key', $keys['public']);
+  $config->set('private_key', $keys['private']);
+  $config->save(TRUE);
+
+  // Create example user to be used with example consumer.
+  $user = User::create();
+  $password = \Drupal::service('password_generator')->generate();
+  $user->setPassword($password);
+  $user->enforceIsNew();
+  $user->setEmail("pantheon_decoupled@example.com");
+  $user->setUsername("pantheon_decoupled");
+  $user->addRole('pantheon_decoupled');
+  $user->set("status", 1);
+  $user->save();
+
+  // Create example consumer.
+  $client_secret = \Drupal::service('password_generator')->generate(16);
+  $consumer = Consumer::create([
+    'label' => 'Example Consumer',
+    'description' => 'This is an example consumer for Pantheon\'s Decoupled Starter Kit. This was created programmatically when the pantheon_decoupled module was first installed. Feel free to edit, or delete this.',
+    'user_id' => $user->id(),
+    'secret' => $client_secret,
+    'roles' => ['pantheon_decoupled'],
+  ]);
+  $consumer->save();
+  $client_id = $consumer->uuid();
+
+  // Set messages for post installation steps.
+  \Drupal::messenger()->addWarning(t('Pantheon Decoupled Post Installation Steps:'));
+  \Drupal::messenger()->addWarning(t('1. Add the following to the .env file in your JavaScript application:'));
+  \Drupal::messenger()->addWarning(t('CLIENT_ID=%client_id', ['%client_id' => $client_id]));
+  \Drupal::messenger()->addWarning(t('CLIENT_SECRET=%client_secret', ['%client_secret' => $client_secret]));
+  \Drupal::messenger()->addWarning(t('2. The user pantheon_decoupled was created with the password %password. Please update this account accordingly.', ['%password' => $password]));
+}

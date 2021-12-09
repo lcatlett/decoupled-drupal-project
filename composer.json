@@ -1,6 +1,6 @@
 {
     "name": "pantheon-upstreams/drupal-project",
-    "description": "Install Drupal 9 with Composer on Pantheon.",
+    "description": "Install Decoupled Drupal 9 with Composer on Pantheon.",
     "type": "project",
     "license": "MIT",
     "repositories": [
@@ -11,11 +11,28 @@
         {
             "type": "path",
             "url": "upstream-configuration"
+        },
+        {
+            "type": "path",
+            "url": "web/modules/custom/decoupled_preview"
+        },
+        {
+            "type": "path",
+            "url": "web/modules/custom/pantheon_decoupled"
         }
     ],
     "require": {
         "pantheon-upstreams/upstream-configuration": "*",
-        "drush/drush": "^10"
+        "drush/drush": "^10",
+        "drupal/admin_toolbar": "^3.0",
+        "drupal/coffee": "^1.2",
+        "drupal/config_split": "^1.7",
+        "drupal/decoupled_preview": "*",
+        "drupal/environment_indicator": "^4.0",
+        "drupal/gin": "^3.0@alpha",
+        "drupal/pantheon_advanced_page_cache": "^1.2",
+        "drupal/pantheon_decoupled": "*",
+        "drupal/redis": "^1.5"
     },
     "conflict": {
             "drupal/drupal": "*"
@@ -32,6 +49,10 @@
             "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
             "web/private/scripts/quicksilver/{$name}/": ["type:quicksilver-script"]
         },
+        "patches": {
+            "drupal/core": {
+                "1356276#656: Allow profiles to define a base/parent profile": "https://www.drupal.org/files/issues/2021-06-29/D91x_AND_D93x-1356276-656.patch"
+            },
         "composer-exit-on-patch-failure": true,
         "patchLevel": {
             "drupal/core": "-p2"

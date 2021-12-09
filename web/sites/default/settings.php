@@ -32,3 +32,12 @@ $local_settings = __DIR__ . "/settings.local.php";
 if (file_exists($local_settings)) {
   include $local_settings;
 }
+
+
+/**
+ * If there is a decoupled settings file, then include it
+ */
+$decoupled_settings = __DIR__ . "/decoupled.settings.php";
+if (file_exists($decoupled_settings)) {
+  include $decoupled_settings;
+}

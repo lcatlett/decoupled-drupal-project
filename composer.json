@@ -1,5 +1,5 @@
 {
-    "name": "pantheon-upstreams/drupal-project",
+    "name": "lcatlett/decoupled-drupal-project",
     "description": "Install Decoupled Drupal 9 with Composer on Pantheon.",
     "type": "project",
     "license": "MIT",
@@ -43,16 +43,23 @@
         "installer-paths": {
             "web/core": ["type:drupal-core"],
             "web/libraries/{$name}": ["type:drupal-library"],
-            "web/modules/composer/{$name}": ["type:drupal-module"],
-            "web/profiles/composer/{$name}": ["type:drupal-profile"],
-            "web/themes/composer/{$name}": ["type:drupal-theme"],
+            "web/modules/contrib/{$name}": ["type:drupal-module"],
+            "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+            "web/themes/contrib/{$name}": ["type:drupal-theme"],
             "drush/Commands/contrib/{$name}": ["type:drupal-drush"],
             "web/private/scripts/quicksilver/{$name}/": ["type:quicksilver-script"]
         },
         "patches": {
             "drupal/core": {
-                "1356276#656: Allow profiles to define a base/parent profile": "https://www.drupal.org/files/issues/2021-06-29/D91x_AND_D93x-1356276-656.patch"
-            },
+                "1356276#675: Allow profiles to define a base/parent profile": "https://www.drupal.org/files/issues/2021-11-18/1356276-675.patch"
+            }
+        },
+        "build-env": {
+            "install-cms": [
+                "drush site-install pantheon_decoupled_umami_demo --account-mail={account-mail} --account-name={account-name} --account-pass={account-pass} --site-mail={site-mail} --site-name={site-name} --yes"
+            ],
+            "export-configuration": "drush config-export --yes"
+        },
         "composer-exit-on-patch-failure": true,
         "patchLevel": {
             "drupal/core": "-p2"
@@ -69,12 +76,6 @@
                 "[project-root]/pantheon.upstream.yml": false,
                 "[project-root]/.gitattributes": false
             }
-        },
-        "build-env": {
-            "install-cms": [
-                "drush site-install pantheon_decoupled_umami_demo --account-mail={account-mail} --account-name={account-name} --account-pass={account-pass} --site-mail={site-mail} --site-name={site-name} --yes"
-            ],
-            "export-configuration": "drush config-export --yes"
         }
     },
     "config": {

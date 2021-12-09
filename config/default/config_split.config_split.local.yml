@@ -1,0 +1,20 @@
+uuid: 063a26ea-fd8e-4975-bbde-cc3507eda151
+langcode: en
+status: false
+dependencies: {  }
+id: local
+label: Local
+description: 'Config for Lando local environment'
+folder: ../config/envs/local
+module:
+  devel: 0
+  views_ui: 0
+theme: {  }
+blacklist:
+  - decoupled_preview.dp_preview_site.nextjs_demo
+  - devel.toolbar.settings
+graylist:
+  - system.performance
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

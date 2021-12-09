@@ -1,0 +1,13 @@
+uuid: bd597434-3d6d-4a3b-a226-57b3412abaf8
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: dyDkGgCVCnf7WeH0NWF18qVyBeyoU7XHXL_GBjb3Lok
+id: pantheon_decoupled
+label: 'Pantheon Decoupled'
+weight: 5
+is_admin: null
+permissions:
+  - 'administer dp_preview_site'
+  - 'administer taxonomy'

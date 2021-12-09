@@ -1,0 +1,19 @@
+uuid: 52a82570-a932-495b-b6ce-874a679139a0
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+_core:
+  default_config_hash: '-3P1yuM15pcimXHBBhevjW-4aqojpmZbUgAqlVIeweo'
+name: Recipe
+type: recipe
+description: 'Add a new recipe to the site.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

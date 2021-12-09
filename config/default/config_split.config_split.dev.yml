@@ -1,0 +1,16 @@
+uuid: 6e3cb888-235d-422e-9419-e3640e7d7542
+langcode: en
+status: false
+dependencies: {  }
+id: dev
+label: Dev
+description: 'Config for Pantheon Dev environment'
+folder: ../config/envs/dev
+module:
+  pantheon_advanced_page_cache: 0
+theme: {  }
+blacklist: {  }
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

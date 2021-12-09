@@ -1,0 +1,17 @@
+uuid: 721620a4-0491-458c-9a91-94235960fbb4
+langcode: en
+status: false
+dependencies: {  }
+id: live
+label: Live
+description: 'Config for Pantheon Live environment'
+folder: ../config/envs/live
+module:
+  pantheon_advanced_page_cache: 0
+theme: {  }
+blacklist: {  }
+graylist:
+  - environment_indicator.settings
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

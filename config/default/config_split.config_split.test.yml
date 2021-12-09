@@ -1,0 +1,16 @@
+uuid: 1bafda8f-fc73-4e93-842c-072b5ba59ba3
+langcode: en
+status: true
+dependencies: {  }
+id: test
+label: Test
+description: 'Config for Pantheon Test environment'
+folder: ../config/envs/test
+module:
+  pantheon_advanced_page_cache: 0
+theme: {  }
+blacklist: {  }
+graylist: {  }
+graylist_dependents: true
+graylist_skip_equal: true
+weight: 0

@@ -1,0 +1,17 @@
+uuid: 9079971d-6b1e-4402-9022-e707ab9848a1
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: oihuvjBxyykypMXyHYs1CNNm8NOdPNZZL82y4-aUGr8
+name: square_medium
+label: 'Square Medium'
+effects:
+  c42becc5-dd14-4384-81e1-8a667c60a705:
+    uuid: c42becc5-dd14-4384-81e1-8a667c60a705
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      anchor: center-center
+      width: 600
+      height: 600

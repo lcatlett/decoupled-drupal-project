@@ -16,7 +16,6 @@ use Drupal\Core\StreamWrapper\PrivateStream;
 function _pantheon_decoupled_generate_keys() {
   // Build all the dependencies manually to avoid having to rely on the
   // container to be ready.
-  $dir_name = 'keys';
   /** @var \Drupal\simple_oauth\Service\KeyGeneratorService $key_gen */
   $key_gen = \Drupal::service('simple_oauth.key.generator');
   /** @var \Drupal\simple_oauth\Service\Filesystem\FileSystemChecker $file_system_checker */

@@ -1,0 +1,7 @@
+uuid: 8c125b57-d256-44d8-9027-8eb11fce13ba
+langcode: en
+status: true
+dependencies: {  }
+id: nextjs_demo
+label: 'NextJS Demo'
+url: 'http://drupalnext.lndo.site/api/preview'

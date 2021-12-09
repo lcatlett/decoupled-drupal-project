@@ -1,0 +1,8 @@
+name: "Pantheon Decoupled Umami Demo"
+type: profile
+base profile: demo_umami
+description: 'Profile for Pantheon Decoupled Umami Demo.'
+core_version_requirement: '^8.8 || ^9'
+dependencies:
+  - decoupled_preview
+  - pantheon_decoupled
